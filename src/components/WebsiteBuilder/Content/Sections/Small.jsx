@@ -1,0 +1,80 @@
+import React, { useCallback } from 'react'
+import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
+
+const Small = ({ id, position }) => {
+  const {
+    openSectionsFlyout,
+    moveSectionUp,
+    moveSectionDown,
+    deleteSection,
+    duplicateSection,
+  } = useWebsiteBuilderContext();
+
+  const moveUp = useCallback(() => moveSectionUp(position), [moveSectionUp, position]);
+  const moveDown = useCallback(() => moveSectionDown(position), [moveSectionDown, position]);
+  const onDelete = useCallback(() => deleteSection(id), [deleteSection, id]);
+  const onClone = useCallback(() => duplicateSection(id), [duplicateSection, id]);
+
+  return (
+    <section className="hl_page-creator--section" id={`section-${id}`}>
+      <div className="hl_page-creator--actions">
+        <div className="move-actions">
+          <span
+            data-tooltip="tooltip"
+            data-placement="right"
+            title="Up"
+            onClick={moveUp}
+          >
+            <i className="icon icon-arrow-up-2"></i>
+          </span>
+          <span
+            data-tooltip="tooltip"
+            data-placement="right"
+            title="Down"
+            onClick={moveDown}
+          >
+            <i className="icon icon-arrow-down-2"></i>
+          </span>
+        </div>
+        <div className="more-actions">
+          <span data-tooltip="tooltip" data-placement="left" title="Settings">
+            <i className="fas fa-cog"></i>
+          </span>
+          <span
+            data-tooltip="tooltip"
+            data-placement="left"
+            title="Clone"
+            onClick={onClone}
+          >
+            <i className="far fa-eye"></i>
+          </span>
+          <span data-tooltip="tooltip" data-placement="left" title="Save">
+            <i className="far fa-copy"></i>
+          </span>
+          <span
+            data-tooltip="tooltip"
+            data-placement="left"
+            title="Delete"
+            onClick={onDelete}
+          >
+            <i className="far fa-trash-alt"></i>
+          </span>
+        </div>
+      </div>
+      <span
+        className="add-new-section"
+        data-tooltip="tooltip"
+        data-placement="bottom"
+        title="Add New Section"
+        onClick={openSectionsFlyout}
+      >
+        <i className="icon icon-plus"></i>
+      </span>
+      <div href="#" className="new-row-blank">
+        <span className="btn btn-light5 btn-slim">Add New Row</span>
+      </div>
+    </section>
+  );
+}
+
+export default Small;
