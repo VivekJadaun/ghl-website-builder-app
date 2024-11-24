@@ -72,7 +72,7 @@ export const DEFAULT_ELEMENTS = [
   },
   {
     id: DEFAULT_ELEMENT_IDS.THIRD_ELEMENT,
-    type: ELEMENT_TYPES.SUB_HEADLINE,
+    type: ELEMENT_TYPES.HEADLINE,
     position: 0,
     column: 0,
     parentId: DEFAULT_ROW_IDS.SECOND_ROW,
