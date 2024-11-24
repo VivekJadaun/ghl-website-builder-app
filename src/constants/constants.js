@@ -5,8 +5,19 @@ export const SECTION_TYPES = {
   SMALL: 4,
 };
 
-export const DEFAULT_SECTIONS = [
-  { id: '1', type: 4, position: 0 },
-  { id: '2', type: 1, position: 1 },
-  { id: '3', type: 3, position: 2 },
+export const ROW_TYPES = {
+  SINGLE_COLUMN: 1,
+  DUAL_COLUMN: 2,
+  TRIPLE_COLUMN: 3,
+};
+
+export const COLUMN_OPTIONS = [
+  { label: "1 Column", enabled: true, type: ROW_TYPES.SINGLE_COLUMN },
+  { label: "2 Column", enabled: true, type: ROW_TYPES.DUAL_COLUMN },
+  { label: "3 Column", enabled: true, type: ROW_TYPES.TRIPLE_COLUMN },
+  { label: "4 Column", enabled: false },
+  { label: "5 Column", enabled: false },
+  { label: "6 Column", enabled: false },
+  { label: "Left Sidebar", enabled: false },
+  { label: "Right Sidebar", enabled: false },
 ];

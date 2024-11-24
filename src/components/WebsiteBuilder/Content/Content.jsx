@@ -1,10 +1,11 @@
-import React, { memo, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import Menu from "./Menu/Menu";
-import { useWebsiteBuilderContext } from "../../../contexts/WebsiteBuilderContext";
 import SectionType from "./SectionType";
+import { useSectionContext } from "../../../contexts/SectionContext";
+import { RowProvider } from "../../../contexts/RowContext";
 
 const Content = () => {
-  const { sections, activeSectionId } = useWebsiteBuilderContext();
+  const { sections, activeSectionId } = useSectionContext();
 
   const scrollToSection = useCallback(
     (id) => {
@@ -25,7 +26,7 @@ const Content = () => {
       scrollToSection(activeSectionId);
     }
   }, [activeSectionId, scrollToSection]);
-
+  
   return (
     <section className="hl_page-creator--main">
       <Menu />
@@ -33,11 +34,13 @@ const Content = () => {
       <div className="hl_page-creator--content">
         {!!sections.length &&
           sections.map((section) => (
-            <SectionType key={section.id} section={section} />
+            <RowProvider key={section.id} type={section.type}>
+              <SectionType key={section.id} section={section} />
+            </RowProvider>
           ))}
       </div>
     </section>
   );
 };
 
-export default memo(Content);
+export default Content;

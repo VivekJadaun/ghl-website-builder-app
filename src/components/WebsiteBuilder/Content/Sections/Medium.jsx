@@ -1,25 +1,34 @@
 import React, { useCallback } from 'react'
-import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
+import { useSectionContext } from '../../../../contexts/SectionContext';
+import { useWebsiteBuilderContext } from "../../../../contexts/WebsiteBuilderContext";
+import { useRowContext } from '../../../../contexts/RowContext';
+import { ColumnProvider } from '../../../../contexts/ColumnContext';
+import RowType from '../RowType';
+import EmptyRow from '../Row/EmptyRow';
 
 const Medium = ({ id, position }) => {
+  const { openSectionsFlyout } = useWebsiteBuilderContext();
   const {
-    openSectionsFlyout,
+    setActiveSectionId,
     moveSectionUp,
     moveSectionDown,
     deleteSection,
     duplicateSection,
-  } = useWebsiteBuilderContext();
+  } = useSectionContext();
+  const { rows } = useRowContext();
 
   const moveUp = useCallback(() => moveSectionUp(position), [moveSectionUp, position]);
   const moveDown = useCallback(() => moveSectionDown(position), [moveSectionDown, position]);
   const onDelete = useCallback(() => deleteSection(id), [deleteSection, id]);
   const onClone = useCallback(() => duplicateSection(id), [duplicateSection, id]);
 
+  const onAddSection = useCallback(() => {
+    setActiveSectionId(id);
+    openSectionsFlyout();
+  }, [id, openSectionsFlyout, setActiveSectionId]);
+
   return (
-    <section
-      className="hl_page-creator--section"
-      id={`section-${id}`}
-    >
+    <section className="hl_page-creator--section" id={`section-${id}`}>
       <div className="hl_page-creator--actions">
         <div className="move-actions">
           <span
@@ -69,11 +78,21 @@ const Medium = ({ id, position }) => {
         data-tooltip="tooltip"
         data-placement="bottom"
         title="Add New Section"
-        onClick={openSectionsFlyout}
+        onClick={onAddSection}
       >
         <i className="icon icon-plus"></i>
       </span>
-      <div className="hl_page-creator--row">
+
+      {!!rows.length &&
+        rows.map((row) => (
+          <ColumnProvider key={row.id}>
+            <RowType key={row.id} row={row} />
+          </ColumnProvider>
+        ))}
+
+      {!rows.length && <EmptyRow />}
+
+      {/* <div className="hl_page-creator--row">
         <div className="hl_page-creator--actions">
           <div className="move-actions">
             <span data-tooltip="tooltip" data-placement="top" title="Up">
@@ -189,7 +208,7 @@ const Medium = ({ id, position }) => {
             <span className="btn btn-light6 btn-slim">Add New Element</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

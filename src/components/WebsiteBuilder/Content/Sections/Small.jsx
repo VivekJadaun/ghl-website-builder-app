@@ -1,19 +1,31 @@
 import React, { useCallback } from 'react'
+import { useSectionContext } from '../../../../contexts/SectionContext';
 import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
+import { useRowContext } from '../../../../contexts/RowContext';
+import EmptyRow from '../Row/EmptyRow';
+import { ColumnProvider } from '../../../../contexts/ColumnContext';
+import RowType from '../RowType';
 
 const Small = ({ id, position }) => {
+  const { openSectionsFlyout } = useWebsiteBuilderContext();
   const {
-    openSectionsFlyout,
+    setActiveSectionId,
     moveSectionUp,
     moveSectionDown,
     deleteSection,
     duplicateSection,
-  } = useWebsiteBuilderContext();
+  } = useSectionContext();
+  const { rows } = useRowContext();
 
   const moveUp = useCallback(() => moveSectionUp(position), [moveSectionUp, position]);
   const moveDown = useCallback(() => moveSectionDown(position), [moveSectionDown, position]);
   const onDelete = useCallback(() => deleteSection(id), [deleteSection, id]);
   const onClone = useCallback(() => duplicateSection(id), [duplicateSection, id]);
+
+  const onAddSection = useCallback(() => {
+    setActiveSectionId(id);
+    openSectionsFlyout();
+  }, [id, openSectionsFlyout, setActiveSectionId]);
 
   return (
     <section className="hl_page-creator--section" id={`section-${id}`}>
@@ -66,13 +78,19 @@ const Small = ({ id, position }) => {
         data-tooltip="tooltip"
         data-placement="bottom"
         title="Add New Section"
-        onClick={openSectionsFlyout}
+        onClick={onAddSection}
       >
         <i className="icon icon-plus"></i>
       </span>
-      <div href="#" className="new-row-blank">
-        <span className="btn btn-light5 btn-slim">Add New Row</span>
-      </div>
+
+      {!!rows.length &&
+        rows.map((row) => (
+          <ColumnProvider key={row.id}>
+            <RowType key={row.id} row={row} />
+          </ColumnProvider>
+        ))}
+
+      {!rows.length && <EmptyRow />}
     </section>
   );
 }

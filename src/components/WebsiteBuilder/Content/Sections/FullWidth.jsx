@@ -1,20 +1,32 @@
 import React, { useCallback } from 'react'
+import { useSectionContext } from '../../../../contexts/SectionContext';
 import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
+import { useRowContext } from '../../../../contexts/RowContext';
+import RowType from '../RowType';
+import { ColumnProvider } from '../../../../contexts/ColumnContext';
+import EmptyRow from '../Row/EmptyRow';
 
 const FullWidth = ({ id, position }) => {
+  const { openSectionsFlyout } = useWebsiteBuilderContext();
   const {
-    openSectionsFlyout,
+    setActiveSectionId, 
     moveSectionUp,
     moveSectionDown,
     deleteSection,
     duplicateSection,
-  } = useWebsiteBuilderContext();
+  } = useSectionContext();
+  const { rows } = useRowContext();
 
   const moveUp = useCallback(() => moveSectionUp(position), [moveSectionUp, position]);
   const moveDown = useCallback(() => moveSectionDown(position), [moveSectionDown, position]);
   const onDelete = useCallback(() => deleteSection(id), [deleteSection, id]);
   const onClone = useCallback(() => duplicateSection(id), [duplicateSection, id]);
 
+  const onAddSection = useCallback(() => {
+    setActiveSectionId(id);
+    openSectionsFlyout();
+  }, [id, openSectionsFlyout, setActiveSectionId]);
+  
   return (
     <section
       className="hl_page-creator--section"
@@ -48,13 +60,23 @@ const FullWidth = ({ id, position }) => {
           <span data-tooltip="tooltip" data-placement="left" title="Settings">
             <i className="fas fa-cog"></i>
           </span>
-          <span data-tooltip="tooltip" data-placement="left" title="Clone" onClick={onClone}>
+          <span
+            data-tooltip="tooltip"
+            data-placement="left"
+            title="Clone"
+            onClick={onClone}
+          >
             <i className="far fa-eye"></i>
           </span>
           <span data-tooltip="tooltip" data-placement="left" title="Save">
             <i className="far fa-copy"></i>
           </span>
-          <span data-tooltip="tooltip" data-placement="left" title="Delete" onClick={onDelete}>
+          <span
+            data-tooltip="tooltip"
+            data-placement="left"
+            title="Delete"
+            onClick={onDelete}
+          >
             <i className="far fa-trash-alt"></i>
           </span>
         </div>
@@ -64,11 +86,21 @@ const FullWidth = ({ id, position }) => {
         data-tooltip="tooltip"
         data-placement="bottom"
         title="Add New Section"
-        onClick={openSectionsFlyout}
+        onClick={onAddSection}
       >
         <i className="icon icon-plus"></i>
       </span>
-      <div className="hl_page-creator--row">
+
+      {!!rows.length &&
+        rows.map((row) => (
+          <ColumnProvider key={row.id}>
+            <RowType key={row.id} row={row} />
+          </ColumnProvider>
+        ))}
+
+      {!rows.length && <EmptyRow />}
+
+      {/* <div className="hl_page-creator--row">
         <div className="hl_page-creator--actions">
           <div className="move-actions">
             <span data-tooltip="tooltip" data-placement="top" title="Up">
@@ -182,7 +214,7 @@ const FullWidth = ({ id, position }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

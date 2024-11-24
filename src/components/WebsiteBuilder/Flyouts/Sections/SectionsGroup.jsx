@@ -1,22 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
+import { useSectionContext } from '../../../../contexts/SectionContext';
 import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
 
 const SectionsGroup = () => {
-  const {
-    sectionFlyoutVisiblity: isOpen,
-    closeSectionsFlyout,
-    addSection,
-  } = useWebsiteBuilderContext();
+  const { sectionFlyoutVisibility: isOpen, closeSectionsFlyout } = useWebsiteBuilderContext();
+  const { addSection } = useSectionContext();
 
   const addFullWidthSection = () => addSection(1);
   const addWideSection = () => addSection(2);
   const addMediumSection = () => addSection(3);
   const addSmallSection = () => addSection(4);
   return (
-    <section
-      className={`hl_page-creator--sections-group ${isOpen ? "active" : ""}`}
-    >
+    <section className={`hl_page-creator--sections-group ${isOpen ? "active" : ""}`} >
       <a
         href="#"
         className="close-group"
