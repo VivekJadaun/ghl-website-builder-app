@@ -165,8 +165,6 @@ const SectionProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [activeSectionId, sections]
   );
-    
-  console.log(activeSectionId);
   
   return <SectionContext.Provider value={memoizedContextValues}>{children}</SectionContext.Provider>
 };

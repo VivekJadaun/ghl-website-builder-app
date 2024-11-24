@@ -11,7 +11,7 @@ const Content = () => {
       const element = document.getElementById(`section-${id}`);
 
       if (element) {
-        return element.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        return element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
       console.error(`Element with id '${id}' not found`);
@@ -20,7 +20,7 @@ const Content = () => {
   );
   
   useEffect(() => {
-    if (activeSectionId) {
+    if (activeSectionId) {      
       scrollToSection(activeSectionId);
     }
   }, [activeSectionId, scrollToSection]);

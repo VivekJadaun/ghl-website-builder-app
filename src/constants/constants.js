@@ -25,7 +25,6 @@ export const COLUMN_OPTIONS = [
 export const ELEMENT_TYPES = {
   NEW: "New",
   HEADLINE: "Headline",
-  SUB_HEADLINE: "SubHeadline",
   IMAGE: "Image",
   PARAGRAPH: "Paragraph",
 };

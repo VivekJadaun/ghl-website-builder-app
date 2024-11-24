@@ -7,7 +7,6 @@ const NewElement = ({ rowId, column }) => {
   const { setActiveRowId, setActiveColumn } = useRowContext();
 
   const onClick = useCallback(() => {
-    console.log(column);
     setActiveRowId(rowId);
     setActiveColumn(column);
     openElementsFlyout();

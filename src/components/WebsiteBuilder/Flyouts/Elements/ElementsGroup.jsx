@@ -1,29 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useCallback } from 'react'
-import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
-import { useRowContext } from '../../../../contexts/RowContext';
-import { useElementContext } from '../../../../contexts/ElementContext';
-import TextElements from './TextElements';
-import MediaElements from './MediaElements';
-import MiscElements from './MiscElements';
-import CountdownElements from './CountdownElements';
-import ContentBlockElements from './ContentBlockElements';
-import AdvanceFormElements from './AdvanceFormElements';
-import FormElements from './FormElements';
+import React, { useCallback } from "react";
+import { useWebsiteBuilderContext } from "../../../../contexts/WebsiteBuilderContext";
+import { useRowContext } from "../../../../contexts/RowContext";
+import { useElementContext } from "../../../../contexts/ElementContext";
+import TextElements from "./TextElements";
+import MediaElements from "./MediaElements";
+import MiscElements from "./MiscElements";
+import CountdownElements from "./CountdownElements";
+import ContentBlockElements from "./ContentBlockElements";
+import AdvanceFormElements from "./AdvanceFormElements";
+import FormElements from "./FormElements";
 
 const ElementsGroup = () => {
   const { elementFlyoutVisibility: isOpen, closeElementsFlyout } =
     useWebsiteBuilderContext();
   const { activeRowId, activeColumn } = useRowContext();
   const { addElement } = useElementContext();
-  console.log({ activeColumn });
-  
+
   const onAdd = useCallback(
     (type) => addElement(type, activeColumn, activeRowId),
     [activeColumn, activeRowId, addElement]
   );
-  ;
-  
   return (
     <section
       className={`hl_page-creator--element-group ${isOpen ? "active" : ""}`}
@@ -80,11 +77,11 @@ const ElementsGroup = () => {
                 </div>
                 <TextElements onClick={onAdd} />
                 <MediaElements onClick={onAdd} />
-                <FormElements/>
-                <AdvanceFormElements/>
-                <ContentBlockElements/>
-                <CountdownElements/>
-                <MiscElements/>
+                <FormElements />
+                <AdvanceFormElements />
+                <ContentBlockElements />
+                <CountdownElements />
+                <MiscElements />
               </div>
             </div>
           </div>
@@ -396,6 +393,6 @@ const ElementsGroup = () => {
       </div>
     </section>
   );
-}
+};
 
 export default ElementsGroup;

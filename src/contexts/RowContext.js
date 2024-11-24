@@ -157,8 +157,6 @@ const RowProvider = ({ children }) => {
     [activeColumn, activeRowId, rows]
   );
   
-  console.log(activeColumn);
-  
   return <RowContext.Provider value={memoizedContextValues}>{children}</RowContext.Provider>
 };
 

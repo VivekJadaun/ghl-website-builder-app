@@ -1,23 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useMemo } from 'react'
-import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
-import { ELEMENT_TYPES } from '../../../../constants/constants';
-import HeadlineEditor from './HeadlineEditor';
-import ImageEditor from './ImageEditor';
-import ParagraphEditor from './ParagraphEditor';
-import { useElementContext } from '../../../../contexts/ElementContext';
+import React, { useMemo } from "react";
+import { useWebsiteBuilderContext } from "../../../../contexts/WebsiteBuilderContext";
+import { ELEMENT_TYPES } from "../../../../constants/constants";
+import HeadlineEditor from "./HeadlineEditor";
+import ImageEditor from "./ImageEditor";
+import ParagraphEditor from "./ParagraphEditor";
+import { useElementContext } from "../../../../contexts/ElementContext";
 
 const EditorType = ({ type, element }) => {
   const { closeEditorFlyout } = useWebsiteBuilderContext();
   const { editElement } = useElementContext();
-  const editText = ({text}) => {
+  const editText = ({ text }) => {
     editElement({
       ...element,
       data: { text },
     });
     closeEditorFlyout();
   };
-  const editImg = ({src, height = 100, width = 100, alt = ""}) => {
+  const editImg = ({ src, height = 100, width = 100, alt = "" }) => {
     editElement({
       ...element,
       data: { src, height, width, alt },
@@ -38,13 +38,19 @@ const EditorType = ({ type, element }) => {
 };
 
 const EditorGroup = () => {
-  const { editorFlyoutVisibility: isOpen, closeEditorFlyout } = useWebsiteBuilderContext();
+  const { editorFlyoutVisibility: isOpen, closeEditorFlyout } =
+    useWebsiteBuilderContext();
   const { activeElementId, elements } = useElementContext();
-  const element = useMemo(() => elements.find(el => el.id === activeElementId), [activeElementId, elements]);
+  const element = useMemo(
+    () => elements.find((el) => el.id === activeElementId),
+    [activeElementId, elements]
+  );
   const type = useMemo(() => element?.type ?? "", [element?.type]);
-  
+
   return (
-    <section className={`hl_page-creator--sections-group ${isOpen ? "active" : ""}`} >
+    <section
+      className={`hl_page-creator--sections-group ${isOpen ? "active" : ""}`}
+    >
       <a className="close-group" onClick={closeEditorFlyout}>
         <i className="icon icon-close"></i>
       </a>

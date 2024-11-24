@@ -25,16 +25,13 @@ const Row = ({ id, columns, parentId, position }) => {
     setActiveSectionId(parentId);
     duplicateRow(id);
   }, [duplicateRow, id, parentId, setActiveSectionId]);
-    
+
   const onAdd = useCallback(() => {
     setActiveSectionId(parentId);
     openRowsFlyout();
   }, [openRowsFlyout, parentId, setActiveSectionId]);
 
-  const moveUp = useCallback(
-    () => moveRowUp(position),
-    [moveRowUp, position]
-  );
+  const moveUp = useCallback(() => moveRowUp(position), [moveRowUp, position]);
 
   const moveDown = useCallback(
     () => moveRowDown(position),
@@ -103,7 +100,6 @@ const Row = ({ id, columns, parentId, position }) => {
           );
           return (
             <div className="hl_page-creator--column" key={col}>
-            {col}
               {currentColElements.length ? (
                 currentColElements.map((element) => (
                   <ElementSelector

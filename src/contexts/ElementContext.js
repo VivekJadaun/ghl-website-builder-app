@@ -86,8 +86,6 @@ const ElementProvider = ({ children }) => {
     );
     
   const deleteElement = (elementId) => {
-    console.log(elementId);
-    
     setElements((prevElements) => {
       const elementToDelete = prevElements.find(
         (element) => element.id === elementId

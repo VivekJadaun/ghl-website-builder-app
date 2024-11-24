@@ -15,7 +15,7 @@ const NewRow = ({ sectionId }) => {
   )
   
   return (
-    <div href="#" className="new-row-blank" onClick={onClick}>
+    <div className="new-row-blank" onClick={onClick}>
       <span className="btn btn-light5 btn-slim">Add New Row</span>
     </div>
   );

@@ -96,7 +96,6 @@ const Section = ({ id, position, type }) => {
           </span>
         </div>
       </div>
-      {id}
       <span
         className="add-new-section"
         data-tooltip="tooltip"

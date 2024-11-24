@@ -5,8 +5,6 @@ import { useElementContext } from "../../../../contexts/ElementContext";
 const Image = ({ id, data: { src, alt = "image", width, height }, parentId }) => {
   const { openElementsFlyout, openEditorFlyout } = useWebsiteBuilderContext();
   const { setActiveElementId, deleteElement, duplicateElement } = useElementContext();
-  console.log({src, alt, width, height});
-  
 
   const onEdit = useCallback(() => {
     setActiveElementId(id);

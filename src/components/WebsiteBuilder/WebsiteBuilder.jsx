@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Content from "./Content/Content";
 import { useWebsiteBuilderContext } from "../../contexts/WebsiteBuilderContext";
 import Flyouts from "./Flyouts/Flyouts";
@@ -15,12 +15,14 @@ const WebsiteBuilder = () => {
     editorFlyoutVisibility,
   } = useWebsiteBuilderContext();
   
-  const isFlyoutOpen =
-    sectionFlyoutVisibility ||
-    rowFlyoutVisibility ||
-    columnFlyoutVisibility ||
-    elementFlyoutVisibility ||
-    editorFlyoutVisibility;
+  const isFlyoutOpen = useMemo(
+    () =>
+      sectionFlyoutVisibility ||
+      rowFlyoutVisibility ||
+      columnFlyoutVisibility ||
+      elementFlyoutVisibility ||
+      editorFlyoutVisibility
+  , [columnFlyoutVisibility, editorFlyoutVisibility, elementFlyoutVisibility, rowFlyoutVisibility, sectionFlyoutVisibility]);
 
   return (
     <section className="hl_wrapper nav-shrink d-flex">
