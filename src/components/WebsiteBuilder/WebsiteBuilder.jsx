@@ -1,9 +1,10 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Content from "./Content/Content";
 import { useWebsiteBuilderContext } from "../../contexts/WebsiteBuilderContext";
 import Flyouts from "./Flyouts/Flyouts";
 import { SectionProvider } from "../../contexts/SectionContext";
+import { RowProvider } from "../../contexts/RowContext";
+import { ElementProvider } from "../../contexts/ElementContext";
 
 const WebsiteBuilder = () => {
   const {
@@ -11,13 +12,15 @@ const WebsiteBuilder = () => {
     columnFlyoutVisibility,
     elementFlyoutVisibility,
     rowFlyoutVisibility,
+    editorFlyoutVisibility,
   } = useWebsiteBuilderContext();
   
   const isFlyoutOpen =
     sectionFlyoutVisibility ||
     rowFlyoutVisibility ||
     columnFlyoutVisibility ||
-    elementFlyoutVisibility;
+    elementFlyoutVisibility ||
+    editorFlyoutVisibility;
 
   return (
     <section className="hl_wrapper nav-shrink d-flex">
@@ -28,8 +31,12 @@ const WebsiteBuilder = () => {
         id="page-creator"
       >
         <SectionProvider>
-          <Content />
-          <Flyouts />
+          <RowProvider>
+            <ElementProvider>
+              <Content />
+              <Flyouts />
+            </ElementProvider>
+          </RowProvider>
         </SectionProvider>
       </section>
     </section>

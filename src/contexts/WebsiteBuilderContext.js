@@ -7,47 +7,42 @@ const WebsiteBuilderProvider = ({ children }) => {
   const [columnFlyoutVisibility, setColumnFlyoutVisibility] = useState(false);
   const [elementFlyoutVisibility, setElementFlyoutVisibility] = useState(false);
   const [rowFlyoutVisibility, setRowFlyoutVisibility] = useState(false);
+  const [editorFlyoutVisibility, setEditorFlyoutVisibility] = useState(false);
 
   const closeSectionsFlyout = () => setSectionFlyoutVisibility(false);
   const openSectionsFlyout = () => setSectionFlyoutVisibility(true);
-  const toggleSectionsFlyout = () =>
-    setSectionFlyoutVisibility((currentVisibility) => !currentVisibility);
 
   const closeColumnsFlyout = () => setColumnFlyoutVisibility(false);
   const openColumnsFlyout = () => setColumnFlyoutVisibility(true);
-  const toggleColumnsFlyout = () =>
-    setColumnFlyoutVisibility((currentVisibility) => !currentVisibility);
 
   const closeElementsFlyout = () => setElementFlyoutVisibility(false);
   const openElementsFlyout = () => setElementFlyoutVisibility(true);
-  const toggleElementsFlyout = () =>
-    setElementFlyoutVisibility((currentVisibility) => !currentVisibility);
 
   const closeRowsFlyout = () => setRowFlyoutVisibility(false);
   const openRowsFlyout = () => setRowFlyoutVisibility(true);
-  const toggleRowsFlyout = () =>
-    setRowFlyoutVisibility((currentVisibility) => !currentVisibility);
+
+  const closeEditorFlyout = () => setEditorFlyoutVisibility(false);
+  const openEditorFlyout = () => setEditorFlyoutVisibility(true);
 
   const memoizedContextValues = useMemo(
     () => ({
       sectionFlyoutVisibility,
       closeSectionsFlyout,
       openSectionsFlyout,
-      toggleSectionsFlyout,
       columnFlyoutVisibility,
       closeColumnsFlyout,
       openColumnsFlyout,
-      toggleColumnsFlyout,
       elementFlyoutVisibility,
       closeElementsFlyout,
       openElementsFlyout,
-      toggleElementsFlyout,
       rowFlyoutVisibility,
       closeRowsFlyout,
       openRowsFlyout,
-      toggleRowsFlyout,
+      editorFlyoutVisibility,
+      closeEditorFlyout,
+      openEditorFlyout,
     }),
-    [columnFlyoutVisibility, elementFlyoutVisibility, rowFlyoutVisibility, sectionFlyoutVisibility]
+    [columnFlyoutVisibility, editorFlyoutVisibility, elementFlyoutVisibility, rowFlyoutVisibility, sectionFlyoutVisibility]
   );
 
   return (

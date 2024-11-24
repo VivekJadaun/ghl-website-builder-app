@@ -26,4 +26,23 @@ $(function () {
     $(this).removeClass("active");
     $(this).parents(".hl_page-creator--row").addClass("active");
   });
+
+  //Editor
+  $(".hl_page-creator--content").on("mouseenter", ".hl_page-creator--element", function () {
+    $(this).addClass("active");
+    $(this).parents(".hl_page-creator--row").removeClass("active");
+  });
+  $(".hl_page-creator--content").on("mouseleave", ".hl_page-creator--element", function () {
+    $(this).removeClass("active");
+    $(this).parents(".hl_page-creator--row").addClass("active");
+  });
+
+  $("#close-editor-group").on("click", function () {
+    $("#page-creator").removeClass("--menu-active");
+    $(".hl_page-creator--editor-group").removeClass("active");
+  });
+  $("#editor-group .dropdown-item").on("click", function () {
+    $("#page-creator").addClass("--menu-active");
+    $(".hl_page-creator--editor-group").addClass("active");
+  });
 });

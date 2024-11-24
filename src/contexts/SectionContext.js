@@ -166,6 +166,8 @@ const SectionProvider = ({ children }) => {
     [activeSectionId, sections]
   );
     
+  console.log(activeSectionId);
+  
   return <SectionContext.Provider value={memoizedContextValues}>{children}</SectionContext.Provider>
 };
 

@@ -4,6 +4,7 @@ import SectionsGroup from "./Sections/SectionsGroup";
 import RowsGroup from "./Rows/RowsGroup";
 import ColumnsGroup from "./Columns/ColumnsGroup";
 import ElementsGroup from "./Elements/ElementsGroup";
+import EditorGroup from './Editor/EditorGroup';
 
 const Flyouts = () => {
   return (
@@ -13,6 +14,7 @@ const Flyouts = () => {
       <RowsGroup />
       <ColumnsGroup />
       <ElementsGroup />
+      <EditorGroup />
     </>
   );
 }

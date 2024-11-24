@@ -1,22 +1,23 @@
 import React, { useMemo, useState } from "react";
 import { generateId } from "../helpers/stringHelper";
-import { getDefaultRowBySectionType } from "../constants/defaults";
+import { DEFAULT_ROWS } from "../constants/defaults";
 
 const RowContext = React.createContext({});
 
-const RowProvider = ({ type, children }) => {
-  const [rows, setRows] = useState(getDefaultRowBySectionType(type));
-  const [activeRowId, setActiveRowId] = useState("");
+const RowProvider = ({ children }) => {
+  const [rows, setRows] = useState(DEFAULT_ROWS);
+  const [activeRowId, setActiveRowId] = useState(DEFAULT_ROWS?.[0]?.id || "");
+  const [activeColumn, setActiveColumn] = useState(0);
   
-  const addRow = (columns, afterRowId = activeRowId, setActive = true) => {
+  const addRow = (columns, parentId, afterRowId = activeRowId, setActive = true) => {
     const newRowId = generateId();
-
     setRows((rows) => {
       if (!afterRowId) {
         return [
           ...rows,
           {
             id: newRowId,
+            parentId,
             columns,
             position: Math.max(...rows.map(({ position }) => position), 0) + 1,
           },
@@ -30,6 +31,7 @@ const RowProvider = ({ type, children }) => {
           ...rows,
           {
             id: newRowId,
+            parentId,
             columns,
             position: Math.max(...rows.map(({ position }) => position), 0) + 1,
           },
@@ -49,6 +51,7 @@ const RowProvider = ({ type, children }) => {
         ...updatedRows.slice(0, insertIndex + 1),
         {
           id: newRowId,
+          parentId,
           columns,
           position: afterPosition + 1,
         },
@@ -68,15 +71,15 @@ const RowProvider = ({ type, children }) => {
       rows.map((rowItem) => (rowItem.id === row.id ? { ...rowItem, ...row } : rowItem))
     );
     
-  const deleteRow = (RowId) => {
+  const deleteRow = (rowId) => {    
     setRows((prevRows) => {
-      const RowToDelete = prevRows.find((row) => row.id === RowId);
+      const rowToDelete = prevRows.find((row) => row.id === rowId);
       return prevRows
-        .filter((row) => row.id !== RowId)
+        .filter((row) => row.id !== rowId)
         .map((row) => ({
           ...row,
           position:
-            row.position > RowToDelete.position
+            row.position > rowToDelete.position
               ? row.position - 1
               : row.position,
         }))
@@ -84,10 +87,10 @@ const RowProvider = ({ type, children }) => {
     });
   };
 
-  const duplicateRow = (RowId) => {
+  const duplicateRow = (rowId) => {
     setRows((prevRows) => {
       const RowToDuplicate = prevRows.find(
-        (row) => row.id === RowId
+        (row) => row.id === rowId
       );
       if (!RowToDuplicate) return prevRows;
 
@@ -135,12 +138,14 @@ const RowProvider = ({ type, children }) => {
   };
   const moveRowUp = (currentPosition) => moveRow(currentPosition, true);
   const moveRowDown = (currentPosition) => moveRow(currentPosition, false);
-
+  
   const memoizedContextValues = useMemo(
     () => ({
       rows,
       activeRowId,
       setActiveRowId,
+      activeColumn,
+      setActiveColumn,
       addRow,
       editRow,
       deleteRow,
@@ -149,8 +154,10 @@ const RowProvider = ({ type, children }) => {
       moveRowDown,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [activeRowId, rows]
+    [activeColumn, activeRowId, rows]
   );
+  
+  console.log(activeColumn);
   
   return <RowContext.Provider value={memoizedContextValues}>{children}</RowContext.Provider>
 };

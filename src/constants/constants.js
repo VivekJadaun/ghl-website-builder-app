@@ -21,3 +21,11 @@ export const COLUMN_OPTIONS = [
   { label: "Left Sidebar", enabled: false },
   { label: "Right Sidebar", enabled: false },
 ];
+
+export const ELEMENT_TYPES = {
+  NEW: "New",
+  HEADLINE: "Headline",
+  SUB_HEADLINE: "SubHeadline",
+  IMAGE: "Image",
+  PARAGRAPH: "Paragraph",
+};

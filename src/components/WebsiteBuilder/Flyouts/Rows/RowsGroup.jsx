@@ -3,8 +3,9 @@ import React from "react";
 import { useWebsiteBuilderContext } from "../../../../contexts/WebsiteBuilderContext";
 import { COLUMN_OPTIONS } from "../../../../constants/constants";
 import { useRowContext } from "../../../../contexts/RowContext";
+import { useSectionContext } from "../../../../contexts/SectionContext";
 
-const ColumnOptionCard = ({ label, onClick, enabled = false }) => {
+const RowCard = ({ label, onClick, enabled = false }) => {
   return (
     <div
       className={`row-card ${!enabled ? "cursor-not-allowed opacity-50" : ""}`}
@@ -21,16 +22,12 @@ const ColumnOptionCard = ({ label, onClick, enabled = false }) => {
 
 const RowsGroup = () => {
   const { rowFlyoutVisibility: isOpen, closeRowsFlyout } = useWebsiteBuilderContext();
+  const { activeSectionId } = useSectionContext();
   const { addRow } = useRowContext();
-
-  console.log(addRow);
-  
-  const onAdd = (columns) => addRow(columns);
+  const onAdd = (columns) => addRow(columns, activeSectionId);
   
   return (
-    <section
-      className={`hl_page-creator--rows-group ${isOpen ? "active" : ""}`}
-    >
+    <section className={`hl_page-creator--rows-group ${isOpen ? "active" : ""}`} >
       <a
         href="#"
         className="close-group"
@@ -52,7 +49,8 @@ const RowsGroup = () => {
               <div className="add-row-body">
                 <div className="row-cards">
                   {COLUMN_OPTIONS.map((option) => (
-                    <ColumnOptionCard
+                    <RowCard
+                      key={option.label}
                       {...option}
                       onClick={() => onAdd(option.type)}
                     />

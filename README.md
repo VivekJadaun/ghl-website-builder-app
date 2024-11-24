@@ -19,3 +19,4 @@ In the project directory, you can run: `npm start` to run the project locally
 ### issues:
 - [ ] 'coming soon' for unsupported cols in add row
 - [ ] '+' icon hover tooltip
+- [ ] remove subheadline

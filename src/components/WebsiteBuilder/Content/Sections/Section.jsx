@@ -1,12 +1,18 @@
-import React, { useCallback } from 'react'
-import { useSectionContext } from '../../../../contexts/SectionContext';
-import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
-import { useRowContext } from '../../../../contexts/RowContext';
-import EmptyRow from '../Row/EmptyRow';
-import { ColumnProvider } from '../../../../contexts/ColumnContext';
-import RowType from '../RowType';
+import React, { useCallback, useMemo } from "react";
+import { useSectionContext } from "../../../../contexts/SectionContext";
+import { useWebsiteBuilderContext } from "../../../../contexts/WebsiteBuilderContext";
+import { useRowContext } from "../../../../contexts/RowContext";
+import NewRow from "../Row/NewRow";
+import { SECTION_TYPES } from "../../../../constants/constants";
+import Row from "../Row/Row";
 
-const Small = ({ id, position }) => {
+const FULLWIDTH_SECTION_STYLE = {
+  backgroundColor: "#f4f4f4",
+  padding: "80px 0",
+  textAlign: "center",
+};
+
+const Section = ({ id, position, type }) => {
   const { openSectionsFlyout } = useWebsiteBuilderContext();
   const {
     setActiveSectionId,
@@ -16,11 +22,24 @@ const Small = ({ id, position }) => {
     duplicateSection,
   } = useSectionContext();
   const { rows } = useRowContext();
+  const currentSectionRows = useMemo(
+    () => rows.filter((row) => row.parentId === id),
+    [id, rows]
+  );
 
-  const moveUp = useCallback(() => moveSectionUp(position), [moveSectionUp, position]);
-  const moveDown = useCallback(() => moveSectionDown(position), [moveSectionDown, position]);
+  const moveUp = useCallback(
+    () => moveSectionUp(position),
+    [moveSectionUp, position]
+  );
+  const moveDown = useCallback(
+    () => moveSectionDown(position),
+    [moveSectionDown, position]
+  );
   const onDelete = useCallback(() => deleteSection(id), [deleteSection, id]);
-  const onClone = useCallback(() => duplicateSection(id), [duplicateSection, id]);
+  const onClone = useCallback(
+    () => duplicateSection(id),
+    [duplicateSection, id]
+  );
 
   const onAddSection = useCallback(() => {
     setActiveSectionId(id);
@@ -28,7 +47,11 @@ const Small = ({ id, position }) => {
   }, [id, openSectionsFlyout, setActiveSectionId]);
 
   return (
-    <section className="hl_page-creator--section" id={`section-${id}`}>
+    <section
+      className="hl_page-creator--section"
+      id={`section-${id}`}
+      style={type === SECTION_TYPES.FULL_WIDTH ? FULLWIDTH_SECTION_STYLE : {}}
+    >
       <div className="hl_page-creator--actions">
         <div className="move-actions">
           <span
@@ -73,6 +96,7 @@ const Small = ({ id, position }) => {
           </span>
         </div>
       </div>
+      {id}
       <span
         className="add-new-section"
         data-tooltip="tooltip"
@@ -83,16 +107,12 @@ const Small = ({ id, position }) => {
         <i className="icon icon-plus"></i>
       </span>
 
-      {!!rows.length &&
-        rows.map((row) => (
-          <ColumnProvider key={row.id}>
-            <RowType key={row.id} row={row} />
-          </ColumnProvider>
-        ))}
+      {!!currentSectionRows.length &&
+        currentSectionRows.map((row) => <Row key={row.id} {...row} />)}
 
-      {!rows.length && <EmptyRow />}
+      {!currentSectionRows.length && <NewRow sectionId={id} />}
     </section>
   );
-}
+};
 
-export default Small;
+export default Section;

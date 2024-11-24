@@ -1,16 +1,45 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useWebsiteBuilderContext } from '../../../../contexts/WebsiteBuilderContext';
+import { useRowContext } from '../../../../contexts/RowContext';
+import { useElementContext } from '../../../../contexts/ElementContext';
+import TextElements from './TextElements';
+import MediaElements from './MediaElements';
+import MiscElements from './MiscElements';
+import CountdownElements from './CountdownElements';
+import ContentBlockElements from './ContentBlockElements';
+import AdvanceFormElements from './AdvanceFormElements';
+import FormElements from './FormElements';
 
 const ElementsGroup = () => {
+  const { elementFlyoutVisibility: isOpen, closeElementsFlyout } =
+    useWebsiteBuilderContext();
+  const { activeRowId, activeColumn } = useRowContext();
+  const { addElement } = useElementContext();
+  console.log({ activeColumn });
+  
+  const onAdd = useCallback(
+    (type) => addElement(type, activeColumn, activeRowId),
+    [activeColumn, activeRowId, addElement]
+  );
+  ;
+  
   return (
-    <section className="hl_page-creator--element-group">
-      <a href="#" className="close-group" id="close-element-group">
+    <section
+      className={`hl_page-creator--element-group ${isOpen ? "active" : ""}`}
+    >
+      <a
+        href="#"
+        className="close-group"
+        id="close-element-group"
+        onClick={closeElementsFlyout}
+      >
         <i className="icon icon-close"></i>
       </a>
       <div className="hl_element-group">
         <div className="tab-content" id="hl_element-group-tab">
           <div
-            className="tab-pane fade"
+            className={`tab-pane fade ${isOpen ? "active show" : ""}`}
             id="add-element"
             role="tabpanel"
             aria-labelledby="add-element-tab"
@@ -49,251 +78,13 @@ const ElementsGroup = () => {
                     placeholder="Search"
                   />
                 </div>
-                <div className="element-group">
-                  <h4>Text</h4>
-                  <div className="element-cards">
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-heading"></i>
-                      </div>
-                      <h5>Headline</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-font"></i>
-                      </div>
-                      <h5>Sub-headline</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-paragraph"></i>
-                      </div>
-                      <h5>Paragraph</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-list"></i>
-                      </div>
-                      <h5>Bullet List</h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="element-group">
-                  <h4>Media</h4>
-                  <div className="element-cards">
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-image"></i>
-                      </div>
-                      <h5>Image</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-images"></i>
-                      </div>
-                      <h5>Image Popup</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-play-circle"></i>
-                      </div>
-                      <h5>Video</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="far fa-play-circle"></i>
-                      </div>
-                      <h5>Video popup</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-volume-up"></i>
-                      </div>
-                      <h5>Audio player</h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="element-group">
-                  <h4>Form</h4>
-                  <div className="element-cards">
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-stop"></i>
-                      </div>
-                      <h5>Button</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fab fa-facebook-f"></i>
-                      </div>
-                      <h5>Facebook Option</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="far fa-square"></i>
-                      </div>
-                      <h5>Input</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="far fa-hand-pointer"></i>
-                      </div>
-                      <h5>Select Box</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-comment-alt"></i>
-                      </div>
-                      <h5>Text Area</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-check-square"></i>
-                      </div>
-                      <h5>Checkbox Headline</h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="element-group">
-                  <h4>Advance Form</h4>
-                  <div className="element-cards">
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-sms"></i>
-                      </div>
-                      <h5>SMS Sign up</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-file-invoice"></i>
-                      </div>
-                      <h5>Billing Add.</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-file-invoice"></i>
-                      </div>
-                      <h5>Shipping Add.</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-poll-h"></i>
-                      </div>
-                      <h5>Survey</h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="element-group">
-                  <h4>Content Blocks</h4>
-                  <div className="element-cards">
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-circle"></i>
-                      </div>
-                      <h5>Icon</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-file-image"></i>
-                      </div>
-                      <h5>Img Feature</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-link"></i>
-                      </div>
-                      <h5>Navigation</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="far fa-question-circle"></i>
-                      </div>
-                      <h5>FAQ</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="far fa-window-minimize"></i>
-                      </div>
-                      <h5>Divider</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-window-minimize"></i>
-                      </div>
-                      <h5>Progress bar</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-list"></i>
-                      </div>
-                      <h5>Image List</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-table"></i>
-                      </div>
-                      <h5>Pricing Table</h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="element-group">
-                  <h4>Countdown</h4>
-                  <div className="element-cards">
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-hourglass-start"></i>
-                      </div>
-                      <h5>Countdown</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="far fa-clock"></i>
-                      </div>
-                      <h5>Minute Timer</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-clock"></i>
-                      </div>
-                      <h5>Day Timer</h5>
-                    </div>
-                  </div>
-                </div>
-                <div className="element-group">
-                  <h4>Misc Elements</h4>
-                  <div className="element-cards">
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-share-alt-square"></i>
-                      </div>
-                      <h5>Social Share</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-bell"></i>
-                      </div>
-                      <h5>Privacy Notice</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-comments"></i>
-                      </div>
-                      <h5>FB Comments</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-align-center"></i>
-                      </div>
-                      <h5>Text Block</h5>
-                    </div>
-                    <div className="element-card">
-                      <div className="icon">
-                        <i className="fas fa-code"></i>
-                      </div>
-                      <h5>Custom JS/HTML</h5>
-                    </div>
-                  </div>
-                </div>
+                <TextElements onClick={onAdd} />
+                <MediaElements onClick={onAdd} />
+                <FormElements/>
+                <AdvanceFormElements/>
+                <ContentBlockElements/>
+                <CountdownElements/>
+                <MiscElements/>
               </div>
             </div>
           </div>

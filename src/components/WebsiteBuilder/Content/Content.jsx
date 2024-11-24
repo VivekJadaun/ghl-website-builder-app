@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import Menu from "./Menu/Menu";
-import SectionType from "./SectionType";
 import { useSectionContext } from "../../../contexts/SectionContext";
-import { RowProvider } from "../../../contexts/RowContext";
+import Section from "./Sections/Section";
 
 const Content = () => {
   const { sections, activeSectionId } = useSectionContext();
@@ -19,7 +18,6 @@ const Content = () => {
     },
     []
   );
-  ;
   
   useEffect(() => {
     if (activeSectionId) {
@@ -29,14 +27,14 @@ const Content = () => {
   
   return (
     <section className="hl_page-creator--main">
+      {/* MenuBar */}
       <Menu />
-
+      
+      {/* Sections */}
       <div className="hl_page-creator--content">
         {!!sections.length &&
           sections.map((section) => (
-            <RowProvider key={section.id} type={section.type}>
-              <SectionType key={section.id} section={section} />
-            </RowProvider>
+            <Section key={section.id} {...section}/>
           ))}
       </div>
     </section>
